@@ -8,7 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "Gourmet Gustaaf")
 public class GourmetGustaaf extends OpMode {
     private DcMotor liftMotor;
-    private Servo planeLauncher;
+    private Servo planeLaunchServo;
+
+    private Servo clawServo;
+    private Servo clawRotationServo;
 
     private DcMotor leftMotor;
     private DcMotor rightMotor;
@@ -18,7 +21,9 @@ public class GourmetGustaaf extends OpMode {
         telemetry.addData("Status", "Initializing...");
 
         this.liftMotor = hardwareMap.get(DcMotor.class, "LiftMotor");
-        this.planeLauncher = hardwareMap.get(Servo.class, "PlaneLauncher");
+        this.planeLaunchServo = hardwareMap.get(Servo.class, "PlaneLauncher");
+        this.clawRotationServo = hardwareMap.get(Servo.class, "ClawRotation");
+        this.clawServo = hardwareMap.get(Servo.class, "ClawServo");
 
         this.leftMotor = hardwareMap.get(DcMotor.class, "LeftMotor");
         this.rightMotor = hardwareMap.get(DcMotor.class, "RightMotor");
@@ -40,10 +45,13 @@ public class GourmetGustaaf extends OpMode {
             liftMotor.setPower(0);
         }
 
-        planeLauncher.setPosition(gamepad1.x ? 0.5 : 0.8);
+        planeLaunchServo.setPosition(gamepad1.x ? 0.5 : 0.8);
 
         leftMotor.setPower(calculateExponentialCurve(gamepad1.left_stick_y));
         rightMotor.setPower(calculateExponentialCurve(gamepad1.right_stick_y));
+
+        clawRotationServo.setPosition(gamepad1.right_trigger/2+0.5);
+        clawServo.setPosition(gamepad1.left_trigger);
     }
 
     private double calculateExponentialCurve(double input) {
