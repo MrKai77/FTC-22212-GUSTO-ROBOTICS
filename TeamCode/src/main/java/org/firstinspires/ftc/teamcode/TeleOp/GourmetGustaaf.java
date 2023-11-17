@@ -38,10 +38,10 @@ public class GourmetGustaaf extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_up) {
-            liftMotor.setPower(1);
+            liftMotor.setPower(0.5);
         }
         else if (gamepad1.dpad_down) {
-            liftMotor.setPower(-1);
+            liftMotor.setPower(-0.5);
         }
         else {
             liftMotor.setPower(0);
@@ -56,8 +56,8 @@ public class GourmetGustaaf extends OpMode {
             moveArm();
         }
 
-        clawRotationServo.setPosition(gamepad1.right_trigger/2+0.5);
-        clawServo.setPosition(gamepad1.left_trigger);
+        clawRotationServo.setPosition(1-gamepad1.right_trigger);
+        clawServo.setPosition(1-gamepad1.left_trigger);
     }
 
     public void moveArm() {
@@ -71,6 +71,6 @@ public class GourmetGustaaf extends OpMode {
         liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     private double calculateExponentialCurve(double input) {
-        return Math.pow(input, 5);
+        return Math.pow(input, 5) / 2;
     }
 }
