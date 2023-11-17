@@ -40,3 +40,5 @@ public class Auto extends LinearOpMode {
     }
 }
 
+// add camera functionality to robot code after first competition?
+// -Ben
