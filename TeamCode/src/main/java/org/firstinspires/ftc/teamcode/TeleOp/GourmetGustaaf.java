@@ -30,7 +30,7 @@ public class GourmetGustaaf extends OpMode {
         this.leftMotor = hardwareMap.get(DcMotor.class, "LeftMotor");
         this.rightMotor = hardwareMap.get(DcMotor.class, "RightMotor");
 
-        this.rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        this.leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Status", "Initialized!");
     }
@@ -38,26 +38,38 @@ public class GourmetGustaaf extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.dpad_up) {
-            liftMotor.setPower(0.5);
+            liftMotor.setPower(1);
+            clawRotationServo.setPosition(1);
         }
         else if (gamepad1.dpad_down) {
-            liftMotor.setPower(-0.5);
+            liftMotor.setPower(-0.8);
+            clawRotationServo.setPosition(1);
         }
         else {
             liftMotor.setPower(0);
+
+            if (gamepad1.right_bumper) {
+                clawRotationServo.setPosition(0.5);
+            } else {
+                clawRotationServo.setPosition(1-gamepad1.right_trigger);
+            }
         }
 
-        planeLaunchServo.setPosition(gamepad1.x ? 0.5 : 0.8);
+//        planeLaunchServo.setPosition(gamepad1.x ? 0.5 : 0.8);
 
-        leftMotor.setPower(calculateExponentialCurve(gamepad1.left_stick_y));
-        rightMotor.setPower(calculateExponentialCurve(gamepad1.right_stick_y));
-
-        if (gamepad1.y) {
-            moveArm();
+        if (gamepad1.left_bumper) {
+            leftMotor.setPower(gamepad1.left_stick_y / 6);
+            rightMotor.setPower(gamepad1.right_stick_y / 6);
+        } else {
+            leftMotor.setPower(gamepad1.left_stick_y / 2);
+            rightMotor.setPower(gamepad1.right_stick_y / 2);
         }
 
-        clawRotationServo.setPosition(1-gamepad1.right_trigger);
-        clawServo.setPosition(1-gamepad1.left_trigger);
+//        if (gamepad1.y) {
+//            moveArm();
+//        }
+
+        clawServo.setPosition(0.5 + gamepad1.left_trigger / 2);
     }
 
     public void moveArm() {
@@ -69,8 +81,5 @@ public class GourmetGustaaf extends OpMode {
         liftMotor.setPower(1);
 
         liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-    private double calculateExponentialCurve(double input) {
-        return Math.pow(input, 5) / 2;
     }
 }
