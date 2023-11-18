@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@Autonomous
-public class Auto extends LinearOpMode {
+@Autonomous(name = "Frontstage: Blue (PARK)")
+public class FrontStageBluePark extends LinearOpMode {
     private DcMotorEx leftMotor;
     private DcMotorEx rightMotor;
 
@@ -21,6 +21,18 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
+        // Get in front of stage door & turn
+        moveMeters(2.4);
+        turn(-90);
+
+        // Go below stage door
+        moveMeters(1.6);
+
+        // Get to ~spike pixel location on other side of stage door
+        turn(-90);
+        moveMeters(1.2);
+
+        // Get to backstage
         turn(90);
         moveMeters(1);
 
@@ -96,5 +108,3 @@ public class Auto extends LinearOpMode {
         rightMotor.setPower(0);
     }
 }
-
-// add camera functionality to robot code after first competition?
