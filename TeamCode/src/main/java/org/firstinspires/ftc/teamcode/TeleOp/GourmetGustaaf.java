@@ -33,6 +33,10 @@ public class GourmetGustaaf extends OpMode {
         hMotor.setDirection(DcMotor.Direction.REVERSE);
         leftServo.setDirection(Servo.Direction.REVERSE);
 
+        leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        hMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         telemetry.addData("Status", "Initialized!");
     }
 
@@ -45,11 +49,17 @@ public class GourmetGustaaf extends OpMode {
             leftServo.setPosition(1);
             rightServo.setPosition(1);
         }
-        else if (gamepad1.right_trigger != 0) {
+        else if (gamepad1.dpad_down) {
             intakeMotor.setPower(gamepad1.right_trigger);
+//            intakeMotor.setPower(gamepad1.right_trigger);
             leftServo.setPosition(0);
             rightServo.setPosition(0);
         }
+//        else if (gamepad1.right_trigger != 0) {
+////            intakeMotor.setPower(gamepad1.right_trigger);
+////            leftServo.setPosition(0);
+////            rightServo.setPosition(0);
+//        }
         else {
             intakeMotor.setPower(gamepad1.right_trigger - (gamepad1.left_trigger / 2));
             leftServo.setPosition(0.08);

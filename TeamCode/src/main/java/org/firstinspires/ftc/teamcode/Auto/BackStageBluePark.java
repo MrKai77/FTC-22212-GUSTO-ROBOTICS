@@ -1,61 +1,90 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "AUTO: FOR TESTING PURPOSES ONLY")
-public class Auto extends LinearOpMode {
+@Autonomous(name = "BACKSTAGE: BLUE")
+public class BackStageBluePark extends LinearOpMode {
+
     private DcMotorEx leftMotor;
     private DcMotorEx rightMotor;
     private DcMotorEx hMotor;
 
+    private Servo leftServo;
+    private Servo rightServo;
+
+    private DcMotorEx intakeMotor;
+
     double GOBILDA_TICKS_PER_METER;
     double TETRIX_TICKS_PER_METER;
-
     @Override
     public void runOpMode() {
+        telemetry.addData("Status", "Initializing...");
+
+        leftServo = hardwareMap.get(Servo.class, "LeftServo");
+        rightServo = hardwareMap.get(Servo.class, "RightServo");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
+
         leftMotor = hardwareMap.get(DcMotorEx.class, "LeftMotor");
         rightMotor = hardwareMap.get(DcMotorEx.class, "RightMotor");
         hMotor = hardwareMap.get(DcMotorEx.class, "HMotor");
 
-        leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         hMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        leftServo.setDirection(Servo.Direction.REVERSE);
+
+        leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        hMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * 3.1415 * 3 * 1.07;
         TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*3.1415)) * (10.0/9.0);
 
+        telemetry.addData("Status", "Initialized!");
+
         waitForStart();
 
-        moveMeters(1, 1, 0);
+        leftServo.setPosition(0.2);
+        rightServo.setPosition(0.2);
 
-//        while (opModeIsActive()) {
-//            telemetry.addData("Left Motor:", leftMotor.getCurrentPosition());
-//            telemetry.addData("Right Motor:", rightMotor.getCurrentPosition());
-//
-//            telemetry.update();
-//        }
+        moveMeters(0.8, 0.8, -0.5);
+        sleep(100);
+
+        moveMeters(-0.27, 0.27, 0);
+        sleep(100);
+
+        moveMeters(-1.22, -1.22, 0);
+        sleep(1000);
+
+        leftServo.setPosition(1);
+        rightServo.setPosition(1);
+
+        sleep(2000);
+
+        leftServo.setPosition(0.2);
+        rightServo.setPosition(0.2);
+
+        sleep(2000);
+
+        moveMeters(0.1, 0.1,1);
+        sleep(100);
+
+        moveMeters(-2, -2, 0);
     }
 
     public void moveMeters(double rightMeters, double leftMeters, double hMeters) {
-        final double targetRight = rightMeters * GOBILDA_TICKS_PER_METER;
-        final double targetLeft = leftMeters * GOBILDA_TICKS_PER_METER;
-        final double targetH = hMeters * TETRIX_TICKS_PER_METER;
-
         // Reset encoders
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Set target position
-        leftMotor.setTargetPosition((int) (targetRight));
-        rightMotor.setTargetPosition((int) (targetLeft));
-        hMotor.setTargetPosition((int) (targetH));
+        leftMotor.setTargetPosition((int) (leftMeters * GOBILDA_TICKS_PER_METER));
+        rightMotor.setTargetPosition((int) (rightMeters * GOBILDA_TICKS_PER_METER));
+        hMotor.setTargetPosition((int) (hMeters * TETRIX_TICKS_PER_METER));
 
         // Set RUN_TO_POSITION mode
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -63,8 +92,8 @@ public class Auto extends LinearOpMode {
         hMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Set power with the correct sign for forward movement
-        leftMotor.setPower(0.2);
-        rightMotor.setPower(0.2);
+        leftMotor.setPower(0.5);
+        rightMotor.setPower(0.5);
         hMotor.setPower(0.2);
 
         // Monitor motor positions until they reach the target
