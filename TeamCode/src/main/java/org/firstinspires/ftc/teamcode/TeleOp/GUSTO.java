@@ -4,11 +4,10 @@ import com.arcrobotics.ftclib.drivebase.HDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.robotcore.hardware.IMU;
+import org.firstinspires.ftc.robotcore.external.navigation.*;
 
 public class GUSTO extends OpMode {
 
@@ -17,10 +16,8 @@ public class GUSTO extends OpMode {
     HDrive drive;
 
     // IMU STUFF
-    BNO055IMU imu;
-    BNO055IMU.Parameters parameters;
-    Orientation lastAngles = new Orientation();
-    double globalAngle;
+    IMU imu;
+    IMU.Parameters parameters;
 
     // GAMEPAD
     GamepadEx driverOp;
@@ -47,20 +44,16 @@ public class GUSTO extends OpMode {
         telemetry.addData("GYRO", "Initializing...");
         telemetry.update();
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
+        imu = hardwareMap.get(IMU.class, "imu");
+        parameters = new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.DOWN
+                )
+        );
         imu.initialize(parameters);
 
-        telemetry.addData("GYRO", "Calibrating...");
-        telemetry.update();
-
-        while (!imu.isGyroCalibrated()) { }
-
         telemetry.addData("GYRO", "Ready!");
-        telemetry.addData("Calibration status", imu.getCalibrationStatus().toString());
         telemetry.update();
 
         // MARK: GAMEPAD
@@ -80,26 +73,15 @@ public class GUSTO extends OpMode {
         );
     }
 
-    private void resetAngle() {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        globalAngle = 0;
-    }
-
     private double getAngle() {
+        // Create an object to receive the IMU angles
+        YawPitchRollAngles robotOrientation;
+        robotOrientation = imu.getRobotYawPitchRollAngles();
 
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double yaw   = robotOrientation.getYaw(AngleUnit.DEGREES);
+//        double pitch = robotOrientation.getPitch(AngleUnit.DEGREES);
+//        double roll  = robotOrientation.getRoll(AngleUnit.DEGREES);
 
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-        if (deltaAngle < -180) {
-            deltaAngle += 360;
-        } else if (deltaAngle > 180) {
-            deltaAngle -= 360;
-        }
-
-        globalAngle += deltaAngle;
-        lastAngles = angles;
-
-        return globalAngle;
+        return  yaw;
     }
 }
