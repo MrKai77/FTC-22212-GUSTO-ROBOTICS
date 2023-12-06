@@ -12,9 +12,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class GUSTO extends OpMode {
 
+    // DRIVE
     Motor m_right, m_left, m_slide;
     HDrive drive;
-    GamepadEx driverOp;
 
     // IMU STUFF
     BNO055IMU imu;
@@ -22,9 +22,15 @@ public class GUSTO extends OpMode {
     Orientation lastAngles = new Orientation();
     double globalAngle;
 
+    // GAMEPAD
+    GamepadEx driverOp;
+
     @Override
     public void init() {
 
+        // MARK: DRIVE
+        telemetry.addData("DRIVE", "Initializing...");
+        telemetry.update();
         m_right = new Motor(hardwareMap, "RightMotor");
         m_left = new Motor(hardwareMap, "LeftMotor");
         m_slide = new Motor(hardwareMap, "SlideMotor");
@@ -35,7 +41,11 @@ public class GUSTO extends OpMode {
 
         drive = new HDrive(m_left, m_right, m_slide);
 
-        driverOp = new GamepadEx(gamepad1);
+        telemetry.addData("DRIVE", "Ready!");
+
+        // MARK: GYRO
+        telemetry.addData("GYRO", "Initializing...");
+        telemetry.update();
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         parameters = new BNO055IMU.Parameters();
@@ -44,13 +54,19 @@ public class GUSTO extends OpMode {
         parameters.loggingEnabled = false;
         imu.initialize(parameters);
 
-        telemetry.addData("IMU", "calibrating...");
+        telemetry.addData("GYRO", "Calibrating...");
         telemetry.update();
 
         while (!imu.isGyroCalibrated()) { }
 
-        telemetry.addData("IMU", "ready");
+        telemetry.addData("GYRO", "Ready!");
         telemetry.addData("Calibration status", imu.getCalibrationStatus().toString());
+        telemetry.update();
+
+        // MARK: GAMEPAD
+        driverOp = new GamepadEx(gamepad1);
+
+        telemetry.addData("READY!", "");
         telemetry.update();
     }
 
