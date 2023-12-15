@@ -30,7 +30,7 @@ public class GUSTO extends OpMode {
 
         drive = new DriveTrain(hardwareMap);
         pixelManager = new PixelManager(hardwareMap);
-        gamepad = new GamepadEx(gamepad1)
+        gamepad = new GamepadEx(gamepad1);
 
         imu = hardwareMap.get(IMU.class, "imu");
         parameters = new IMU.Parameters(
