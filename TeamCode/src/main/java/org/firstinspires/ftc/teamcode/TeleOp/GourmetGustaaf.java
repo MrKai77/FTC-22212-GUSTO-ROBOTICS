@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -51,15 +52,9 @@ public class GourmetGustaaf extends OpMode {
         }
         else if (gamepad1.dpad_down) {
             intakeMotor.setPower(gamepad1.right_trigger);
-//            intakeMotor.setPower(gamepad1.right_trigger);
             leftServo.setPosition(0);
             rightServo.setPosition(0);
         }
-//        else if (gamepad1.right_trigger != 0) {
-////            intakeMotor.setPower(gamepad1.right_trigger);
-////            leftServo.setPosition(0);
-////            rightServo.setPosition(0);
-//        }
         else {
             intakeMotor.setPower(gamepad1.right_trigger - (gamepad1.left_trigger / 2));
             leftServo.setPosition(0.08);
