@@ -31,8 +31,8 @@ public class DriveTrain {
         double rightPower = y;
         double hPower = x;
 
-        leftPower -= rotation / 2 - hPower / 10;
-        rightPower += rotation / 2 - hPower / 10;
+        leftPower -= rotation - hPower / 10;
+        rightPower += rotation - hPower / 10;
 
         m_left.set(leftPower);
         m_right.set(rightPower);

@@ -6,18 +6,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.Shared.PixelManager;
 
 @Autonomous(name = "FRONTSTAGE: RED")
 public class FrontStageRedPark extends LinearOpMode {
 
+    PixelManager pixelManager;
+
     private DcMotorEx leftMotor;
     private DcMotorEx rightMotor;
     private DcMotorEx hMotor;
-
-    private Servo leftServo;
-    private Servo rightServo;
-
-    private DcMotorEx intakeMotor;
 
     double GOBILDA_TICKS_PER_METER;
     double TETRIX_TICKS_PER_METER;
@@ -25,31 +23,25 @@ public class FrontStageRedPark extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initializing...");
 
-        leftServo = hardwareMap.get(Servo.class, "LeftServo");
-        rightServo = hardwareMap.get(Servo.class, "RightServo");
-        intakeMotor = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
+        pixelManager = new PixelManager(hardwareMap);
 
         leftMotor = hardwareMap.get(DcMotorEx.class, "LeftMotor");
         rightMotor = hardwareMap.get(DcMotorEx.class, "RightMotor");
-        hMotor = hardwareMap.get(DcMotorEx.class, "HMotor");
+        hMotor = hardwareMap.get(DcMotorEx.class, "SlideMotor");
 
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         hMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        leftServo.setDirection(Servo.Direction.REVERSE);
 
         leftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         hMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * 3.1415 * 3 * 1.07;
-        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*3.1415)) * (10.0/9.0);
+        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*3.1415)) * (10.0/9.0) / 3;
 
         telemetry.addData("Status", "Initialized!");
 
         waitForStart();
-
-        leftServo.setPosition(0.2);
-        rightServo.setPosition(0.2);
 
         moveMeters(0.8, 0.8, 0);
         sleep(100);
@@ -63,13 +55,11 @@ public class FrontStageRedPark extends LinearOpMode {
         moveMeters(-2.8, -2.8, 0);
         sleep(1000);
 
-        leftServo.setPosition(1);
-        rightServo.setPosition(1);
-
-        sleep(2000);
-
-        leftServo.setPosition(0.2);
-        rightServo.setPosition(0.2);
+        pixelManager.setArmPower(-0.5);
+        sleep(1000);
+        pixelManager.setArmPower(0.2);
+        sleep(500);
+        pixelManager.setArmPower(0);
 
         sleep(2000);
 

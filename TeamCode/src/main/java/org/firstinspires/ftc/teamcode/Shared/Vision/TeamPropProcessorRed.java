@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.Shared.Vision;
 
 import android.graphics.Canvas;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
 
 public class TeamPropProcessorRed implements VisionProcessor {
     Mat testMat = new Mat();
@@ -31,23 +33,23 @@ public class TeamPropProcessorRed implements VisionProcessor {
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-//        Scalar lowHSVRedLower = new Scalar(0, 100, 20);  //Beginning of Color Wheel
-//        Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
+
+//        Scalar RedUpper = new Scalar(357, 61, 67);
+//        Scalar RedLower = new Scalar(10, 83, 59);
 //
-//        Scalar redHSVRedLower = new Scalar(160, 100, 20); //Wraps around Color Wheel
-//        Scalar highHSVRedUpper = new Scalar(180, 255, 255);
-//
-//        Core.inRange(testMat, lowHSVRedLower, lowHSVRedUpper, lowMat);
-//        Core.inRange(testMat, redHSVRedLower, highHSVRedUpper, highMat);
+//        Core.inRange(testMat, RedLower, RedUpper, finalMat);
 
-        Scalar RedUpper = new Scalar(357, 61, 67);
-        Scalar RedLower = new Scalar(10, 83, 59);
-
-        Scalar BlueUpper = new Scalar(218, 96, 62);
-        Scalar BlueLower = new Scalar(195, 100, 100);
+        Imgproc.cvtColor(frame, testMat, Imgproc.COLOR_RGB2HSV);
 
 
-        Core.inRange(testMat, RedLower, RedUpper, finalMat);
+        Scalar lowHSVRedLower = new Scalar(0, 100, 20);  //Beginning of Color Wheel
+        Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
+
+        Scalar redHSVRedLower = new Scalar(160, 100, 20); //Wraps around Color Wheel
+        Scalar highHSVRedUpper = new Scalar(180, 255, 255);
+
+        Core.inRange(testMat, lowHSVRedLower, lowHSVRedUpper, lowMat);
+        Core.inRange(testMat, redHSVRedLower, highHSVRedUpper, highMat);
 
         testMat.release();
 
@@ -59,17 +61,20 @@ public class TeamPropProcessorRed implements VisionProcessor {
         double leftBox = Core.sumElems(finalMat.submat(LEFT_RECTANGLE)).val[0];
         double rightBox = Core.sumElems(finalMat.submat(RIGHT_RECTANGLE)).val[0];
 
+
+        outStr = Core.sumElems(finalMat.submat(LEFT_RECTANGLE)).toString();
+
         double averagedLeftBox = leftBox / LEFT_RECTANGLE.area() / 255;
         double averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255; //Makes value [0,1]
 
 
-        if (averagedLeftBox > redThreshold) {        //Must Tune Red Threshold
-            outStr = "left";
-        } else if (averagedRightBox > redThreshold) {
-            outStr = "center";
-        } else {
-            outStr = "right";
-        }
+//        if (averagedLeftBox > redThreshold) {        //Must Tune Red Threshold
+//            outStr = "left";
+//        } else if (averagedRightBox > redThreshold) {
+//            outStr = "center";
+//        } else {
+//            outStr = "right";
+//        }
 
         finalMat.copyTo(frame); /*This line should only be added in when you want to see your custom pipeline
                                   on the driver station stream, do not use this permanently in your code as

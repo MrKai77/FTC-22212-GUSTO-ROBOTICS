@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.teamcode.Shared.Vision.TeamPropProcessorRed;
 
+@Autonomous
 public class TeamPropDetector extends LinearOpMode {
 
     private TeamPropProcessorRed teamPropProcessor;
@@ -25,6 +27,8 @@ public class TeamPropDetector extends LinearOpMode {
         while(opModeIsActive()) {
             telemetry.addData("Prop Position", teamPropProcessor.getPropPosition());
             telemetry.update();
+
+            sleep(10);
         }
 
     }

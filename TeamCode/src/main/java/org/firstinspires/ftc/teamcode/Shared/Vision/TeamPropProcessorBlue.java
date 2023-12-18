@@ -31,18 +31,9 @@ public class TeamPropProcessorBlue
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-//        Scalar lowHSVRedLower = new Scalar(0, 100, 20);  //Beginning of Color Wheel
-//        Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
-//
-//        Scalar redHSVRedLower = new Scalar(160, 100, 20); //Wraps around Color Wheel
-//        Scalar highHSVRedUpper = new Scalar(180, 255, 255);
-//
-//        Core.inRange(testMat, lowHSVRedLower, lowHSVRedUpper, lowMat);
-//        Core.inRange(testMat, redHSVRedLower, highHSVRedUpper, highMat);
 
         Scalar BlueUpper = new Scalar(218, 96, 62);
         Scalar BlueLower = new Scalar(195, 100, 100);
-
 
         Core.inRange(testMat, BlueLower, BlueUpper, finalMat);
 

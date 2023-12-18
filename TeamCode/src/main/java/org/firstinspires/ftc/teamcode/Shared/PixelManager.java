@@ -19,6 +19,15 @@ public class PixelManager {
         m_arm = new Motor(hMap, "ArmMotor");
 
         m_arm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        m_arm.setInverted(true);
+    }
+
+    public void setIntakePower(double power) {
+        m_intake.set(power);
+    }
+
+    public void setArmPower(double power) {
+        m_arm.set(power / 2);
     }
 
     public void setArmPosition(int targetPosition) {
