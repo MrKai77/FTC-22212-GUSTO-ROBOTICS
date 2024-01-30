@@ -62,7 +62,8 @@ public class GUSTO extends OpMode {
         final double intakePower = (gamepad.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) - gamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)/2) / 2;
 
         double speedDivisor = gamepad.getButton(GamepadKeys.Button.LEFT_STICK_BUTTON) ? 1 : 2;
-        drive.easyDrive(gamepad.getLeftY() / speedDivisor, gamepad.getLeftX() / speedDivisor, -gamepad.getRightX());
+//        drive.easyDrive(gamepad.getLeftY() / speedDivisor, gamepad.getLeftX() / speedDivisor, -gamepad.getRightX());
+        drive.m_drive.arcadeDrive(gamepad.getLeftY(), gamepad.getLeftX());
 
         if (gamepad.getButton(GamepadKeys.Button.RIGHT_BUMPER)) {
             pixelManager.setArmPower(-0.5);
