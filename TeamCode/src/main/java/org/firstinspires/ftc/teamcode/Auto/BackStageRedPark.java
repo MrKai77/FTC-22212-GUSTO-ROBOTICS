@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Shared.PixelManager;
+import java.lang.Math.*;
 
 @Autonomous(name = "BACKSTAGE: RED")
 public class BackStageRedPark extends LinearOpMode {
@@ -35,8 +36,8 @@ public class BackStageRedPark extends LinearOpMode {
         rightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         hMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * 3.1415 * 3 * 1.07;
-        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*3.1415)) * (10.0/9.0) / 3;
+        GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * Math.PI * 3 * 1.07;
+        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*Math.PI) * (10.0/9.0) / 3);
         
         telemetry.addData("Status", "Initialized!");
 

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import java.lang.Math.*;
 
 @Autonomous(name = "AUTO: FOR TESTING PURPOSES ONLY")
 public class Auto extends LinearOpMode {
@@ -27,8 +28,8 @@ public class Auto extends LinearOpMode {
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         hMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
-        GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * 3.1415 * 3 * 1.07;
-        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*3.1415)) * (10.0/9.0);
+        GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * Math.PI * 3 * 1.07;
+        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*Math.PI) * (10.0/9.0));
 
         waitForStart();
 
