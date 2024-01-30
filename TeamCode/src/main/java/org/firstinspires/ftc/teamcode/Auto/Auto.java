@@ -27,7 +27,7 @@ public class Auto extends LinearOpMode {
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         GOBILDA_TICKS_PER_METER = leftMotor.getMotorType().getTicksPerRev() * 0.11 * Math.PI * 3 * 1.07;
-        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*Math.PI) * (10.0/9.0));
+//        TETRIX_TICKS_PER_METER = (hMotor.getMotorType().getTicksPerRev() / (0.11*Math.PI) * (10.0/9.0));
 
         waitForStart();
 
