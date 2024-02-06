@@ -4,10 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Shared.PixelManager;
-import org.firstinspires.ftc.teamcode.Shared.PlaneLauncher;
-import java.lang.Math.*;
 
 @Autonomous(name = "BACKSTAGE: BLUE")
 public class BackStageBluePark extends LinearOpMode {

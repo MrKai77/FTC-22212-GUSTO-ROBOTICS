@@ -9,9 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class DriveTrain {
 
     final private Motor m_right, m_left;
-
     final public DifferentialDrive m_drive;
-
 
     public DriveTrain(@NonNull HardwareMap hMap) {
         m_right = new Motor(hMap, "RightMotor");
@@ -25,17 +23,4 @@ public class DriveTrain {
         // These are in radians
         m_drive = new DifferentialDrive(m_left, m_right);
     }
-
-//    public void easyDrive(double y, double x, double rotation) {
-//        double leftPower = y;
-//        double rightPower = y;
-//        double hPower = x;
-//
-//        leftPower -= rotation - hPower / 10;
-//        rightPower += rotation - hPower / 10;
-//
-//        m_left.set(leftPower);
-//        m_right.set(rightPower);
-//        m_slide.set(hPower);
-//    }
 }
