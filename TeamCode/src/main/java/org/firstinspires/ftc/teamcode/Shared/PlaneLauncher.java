@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class PlaneLauncher {
     final private Servo m_planeLauncher;
 
-    final private double UNLAUNCHED_POSITION = 0;
-    final private double LAUNCHED_POSITION = 1;
+    final private double UNLAUNCHED_POSITION = 0.5;
+    final private double LAUNCHED_POSITION = 0.7;
 
     public PlaneLauncher(@NonNull HardwareMap hMap) {
         m_planeLauncher = hMap.get(Servo.class, "PlaneLauncher");
