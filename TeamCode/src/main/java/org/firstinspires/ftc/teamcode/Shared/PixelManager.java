@@ -1,46 +1,39 @@
 package org.firstinspires.ftc.teamcode.Shared;
 
 import androidx.annotation.NonNull;
+import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class PixelManager {
-    final private Motor m_intake, m_arm;
-
-    final public int FEEDING_POSITION = 0;
-    final public int RESTING_POSITION = 100;
-    final public  int SCORING_POSITION = 1000;
+    private final Motor liftMotor;
+    private final SimpleServo clawServo;
 
     public PixelManager(@NonNull HardwareMap hMap) {
-        m_intake = new Motor(hMap, "IntakeMotor");
-        m_arm = new Motor(hMap, "ArmMotor");
+        liftMotor = new Motor(hMap, "LiftMotor");
+        clawServo = new SimpleServo(hMap, "ClawServo", 0, 360, AngleUnit.DEGREES);
 
-        m_arm.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        m_arm.setInverted(true);
+        liftMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        liftMotor.resetEncoder();
     }
 
-    public void setIntakePower(double power) {
-        m_intake.set(power);
+    public void closeClaw() {
+        clawServo.setPosition(0.25);
     }
 
-    public void setArmPower(double power) {
-        m_arm.set(power / 2);
+    public void openClaw() {
+        clawServo.setPosition(0);
     }
 
-    public void setArmPosition(int targetPosition) {
-        m_arm.setTargetPosition(targetPosition);
+    public void setLift(double speed) {
+        liftMotor.set(speed);
+    }
 
-        m_arm.setRunMode(Motor.RunMode.PositionControl);
-        m_arm.set(0.8);
-
-        while (m_arm.motor.isBusy()) {
-            telemetry.addData("Arm Motor:", m_arm.getCurrentPosition());
-            telemetry.update();
-        }
-
-        m_arm.set(0);
+    public int getLiftPosition() {
+        return liftMotor.getCurrentPosition();
+    }
+    public void resetLiftEncoder() {
+        liftMotor.resetEncoder();
     }
 }
