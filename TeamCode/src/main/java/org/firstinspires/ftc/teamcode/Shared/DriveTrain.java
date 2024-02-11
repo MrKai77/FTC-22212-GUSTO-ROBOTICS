@@ -28,28 +28,32 @@ public class DriveTrain {
     }
 
     public void driveTo(double rightMeters, double leftMeters, double speed) {
-        final double GOBILDA_TICKS_PER_METER = m_right.motor.getMotorType().getTicksPerRev() * Math.PI * 0.11;
-        m_right.setRunMode(Motor.RunMode.PositionControl);
-        m_left.setRunMode(Motor.RunMode.PositionControl);
+        // This is definitely the wrong calculation but it's still the right amount
+        final double DRIVE_TICKS_PER_METER = m_right.motor.getMotorType().getTicksPerRev() * 0.11 * Math.PI * 3 * 1.07;
+
+        m_right.setInverted(true);
+
         m_right.resetEncoder();
         m_left.resetEncoder();
 
-        final int rightTarget = (int) (rightMeters * GOBILDA_TICKS_PER_METER);
-        final int leftTarget = (int) (leftMeters * GOBILDA_TICKS_PER_METER);
+        final int rightTarget = (int) (rightMeters * DRIVE_TICKS_PER_METER);
+        final int leftTarget = (int) (leftMeters * DRIVE_TICKS_PER_METER);
 
         m_right.setTargetPosition(rightTarget);
         m_left.setTargetPosition(leftTarget);
 
-        m_right.set(speed);
-        m_left.set(speed);
+        m_right.set(rightTarget < 0 ? -speed : speed);
+        m_left.set(leftTarget < 0 ? -speed : speed);
 
         while (
-                -Math.abs(rightTarget) < m_right.getCurrentPosition() && m_right.getCurrentPosition() < Math.abs(rightTarget) ||
+                -Math.abs(rightTarget) < m_right.getCurrentPosition() && m_right.getCurrentPosition() < Math.abs(rightTarget) &&
                 -Math.abs(leftTarget) < m_left.getCurrentPosition() && m_left.getCurrentPosition() < Math.abs(leftTarget)
         ) {
             System.out.println("TEST");
         }
 
         m_drive.stop();
+
+        m_right.setInverted(false);
     }
 }

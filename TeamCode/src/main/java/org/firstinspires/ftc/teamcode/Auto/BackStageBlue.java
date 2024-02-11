@@ -29,10 +29,27 @@ public class BackStageBlue extends LinearOpMode {
 
         waitForStart();
 
-        drive.driveTo(0.1, 1, 0.5);
-        sleep(5000);
-        drive.driveTo(Math.PI * 0.4, Math.PI * -0.4, 0.5);
-        sleep(5000);
-        drive.driveTo(2, 2, 0.5);
+        pixelManager.closeClaw();
+        drive.driveTo(0.8, 0.8, 0.5);
+        sleep(1000);
+        drive.driveTo(-0.26, 0.26, 0.5);
+        sleep(1000);
+        drive.driveTo(-1.5, -1.5, 0.5);
+        sleep(1000);
+
+        pixelManager.setLift(-0.7);
+        sleep(100);
+        pixelManager.setLift(-0.5);
+        sleep(1000);
+
+        pixelManager.setLift(0.2);
+        sleep(500);
+        pixelManager.setLift(-0.3);
+        sleep(1000);
+
+        pixelManager.setLift(0);
+        sleep(1000);
+        pixelManager.openClaw();
+        sleep(1000);
     }
 }
