@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Shared.PixelManager;
 import org.firstinspires.ftc.teamcode.Shared.PlaneLauncher;
 
 @Autonomous
-public class FrontStageBlue extends LinearOpMode {
+public class BackStageRed extends LinearOpMode {
     DriveTrain drive;
     PlaneLauncher planeLauncher;
     PixelManager pixelManager;
@@ -29,10 +29,10 @@ public class FrontStageBlue extends LinearOpMode {
 
         waitForStart();
 
-        drive.driveTo(0.81, 0.81, 0.5);
+        drive.driveTo(0.1, 1, 0.5);
         sleep(5000);
-        drive.driveTo(Math.PI * 0.4, Math.PI * -0.4, 0.5);
+        drive.driveTo(Math.PI * -0.4, Math.PI * 0.4, 0.5);
         sleep(5000);
-        drive.driveTo(3, 3, 0.5);
+        drive.driveTo(2, 2, 0.5);
     }
 }

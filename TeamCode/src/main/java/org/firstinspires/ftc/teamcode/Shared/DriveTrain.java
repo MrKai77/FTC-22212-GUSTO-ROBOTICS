@@ -44,7 +44,7 @@ public class DriveTrain {
         m_left.set(speed);
 
         while (
-                -Math.abs(rightTarget) < m_right.getCurrentPosition() && m_right.getCurrentPosition() < Math.abs(rightTarget) &&
+                -Math.abs(rightTarget) < m_right.getCurrentPosition() && m_right.getCurrentPosition() < Math.abs(rightTarget) ||
                 -Math.abs(leftTarget) < m_left.getCurrentPosition() && m_left.getCurrentPosition() < Math.abs(leftTarget)
         ) {
             System.out.println("TEST");
